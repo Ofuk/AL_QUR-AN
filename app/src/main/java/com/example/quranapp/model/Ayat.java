@@ -1,4 +1,3 @@
-// File: java/com/example/quranapp/model/Ayat.java
 package com.example.quranapp.model;
 
 import com.google.gson.annotations.SerializedName;
@@ -20,8 +19,16 @@ public class Ayat {
         return number;
     }
 
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
     public String getText() {
         return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public String getAudio() {

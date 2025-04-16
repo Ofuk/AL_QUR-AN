@@ -14,7 +14,7 @@ public class QuranViewModel extends AndroidViewModel {
 
     public QuranViewModel(Application application) {
         super(application);
-        repository = new QuranRepository();
+        repository = new QuranRepository(application);
     }
 
     public LiveData<List<Surah>> getSurahs() {

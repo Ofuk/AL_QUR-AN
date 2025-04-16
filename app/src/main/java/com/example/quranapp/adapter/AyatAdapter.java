@@ -1,9 +1,10 @@
-// File: java/com/example/quranapp/adapter/AyatAdapter.java
 package com.example.quranapp.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ public class AyatAdapter extends RecyclerView.Adapter<AyatAdapter.AyatViewHolder
     private int currentPlayingPosition = -1;
     private BookmarkDbHelper dbHelper;
     private boolean isPreparing = false;
+    private SharedPreferences sharedPreferences;
+    private String language;
 
     public AyatAdapter(Context context, List<Ayat> ayatList, String surahName, int surahNumber) {
         this.context = context;
@@ -37,6 +40,8 @@ public class AyatAdapter extends RecyclerView.Adapter<AyatAdapter.AyatViewHolder
         this.surahNumber = surahNumber;
         this.dbHelper = new BookmarkDbHelper(context);
         this.mediaPlayer = new MediaPlayer();
+        this.sharedPreferences = context.getSharedPreferences("QuranAppPrefs", Context.MODE_PRIVATE);
+        this.language = sharedPreferences.getString("language", "Indonesia");
     }
 
     @NonNull
@@ -46,7 +51,6 @@ public class AyatAdapter extends RecyclerView.Adapter<AyatAdapter.AyatViewHolder
         return new AyatViewHolder(view);
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull AyatViewHolder holder, int position) {
         Ayat ayat = ayatList.get(position);
@@ -54,6 +58,9 @@ public class AyatAdapter extends RecyclerView.Adapter<AyatAdapter.AyatViewHolder
         holder.tvArabic.setText(ayat.getText());
         holder.tvLatin.setText(ayat.getLatin());
         holder.tvTranslation.setText(ayat.getTranslation());
+        int textSize = sharedPreferences.getInt("textSize", 16);
+        holder.tvArabic.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+        holder.tvTranslation.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
 
         // Bookmark
         boolean isBookmarked = dbHelper.isBookmarked(surahNumber, ayat.getNumber());
@@ -105,7 +112,7 @@ public class AyatAdapter extends RecyclerView.Adapter<AyatAdapter.AyatViewHolder
             mediaPlayer.reset();
             mediaPlayer.setDataSource(audioUrl);
             isPreparing = true;
-            notifyItemChanged(position); // Perbarui UI untuk menampilkan ProgressBar
+            notifyItemChanged(position);
             mediaPlayer.prepareAsync();
             mediaPlayer.setOnPreparedListener(mp -> {
                 Log.d("AyatAdapter", "Audio prepared, starting playback for position: " + position);

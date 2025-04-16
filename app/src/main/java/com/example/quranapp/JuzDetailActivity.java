@@ -2,8 +2,11 @@
 package com.example.quranapp;
 
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,20 +21,28 @@ import java.util.List;
 public class JuzDetailActivity extends AppCompatActivity {
     private TextView tvJuzTitle;
     private RecyclerView rvAyat;
+    private ProgressBar progressLoading;
     private AyatAdapter adapter;
     private LinearLayoutManager layoutManager;
     private List<Ayat> allAyats = new ArrayList<>();
     private QuranViewModel viewModel;
     private static final String PREFS_NAME = "JuzScroll";
     private boolean isDataLoaded = false;
+    private MediaPlayer mediaPlayer;
+    private SharedPreferences sharedPreferences;
+    private boolean autoPlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juz_detail);
+        sharedPreferences = getSharedPreferences("QuranAppPrefs", MODE_PRIVATE);
+        autoPlay = sharedPreferences.getBoolean("autoPlay", false);
+
 
         tvJuzTitle = findViewById(R.id.tvJuzTitle);
         rvAyat = findViewById(R.id.rvAyat);
+        progressLoading = findViewById(R.id.progressLoading);
         layoutManager = new LinearLayoutManager(this);
         rvAyat.setLayoutManager(layoutManager);
 
@@ -40,17 +51,16 @@ public class JuzDetailActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(QuranViewModel.class);
 
-        // Hanya muat data jika belum dimuat
         if (!isDataLoaded) {
             loadJuzAyats(juzNumber);
         }
 
-        // Pulihkan posisi scroll
         restoreScrollPosition(juzNumber);
     }
 
     private void loadJuzAyats(int juzNumber) {
         allAyats.clear();
+        progressLoading.setVisibility(View.VISIBLE);
         if (juzNumber == 1) {
             // Surah 1 (Al-Fatiha)
             viewModel.getAyats(1).observe(this, ayats -> {
@@ -63,16 +73,9 @@ public class JuzDetailActivity extends AppCompatActivity {
                                 allAyats.add(ayats2.get(i));
                             }
                             Log.d("JuzDetailActivity", "Total ayats loaded: " + allAyats.size());
-                            // Verifikasi URL audio
-                            for (Ayat ayat : allAyats) {
-                                if (ayat.getAudio() == null) {
-                                    Log.w("JuzDetailActivity", "Audio missing for ayat " + ayat.getNumber());
-                                } else {
-                                    Log.d("JuzDetailActivity", "Audio available for ayat " + ayat.getNumber() + ": " + ayat.getAudio());
-                                }
-                            }
                             updateRecyclerView();
                             isDataLoaded = true;
+                            progressLoading.setVisibility(View.GONE);
                             restoreScrollPosition(juzNumber);
                         }
                     });
@@ -111,21 +114,12 @@ public class JuzDetailActivity extends AppCompatActivity {
         editor.apply();
         Log.d("JuzDetailActivity", "Saving scroll position: " + scrollPosition);
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        int juzNumber = getIntent().getIntExtra("juz_number", 1);
-        restoreScrollPosition(juzNumber);
-        if (adapter != null) {
-            adapter.notifyDataSetChanged(); // Perbarui UI tanpa mengatur ulang adapter
-        }
-    }
 
     @Override
     protected void onStop() {
         super.onStop();
         if (adapter != null) {
-            adapter.onDetachedFromRecyclerView(rvAyat); // Hentikan MediaPlayer jika aktivitas dihentikan
+            adapter.onDetachedFromRecyclerView(rvAyat);
         }
     }
 }

@@ -32,6 +32,11 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.work:work-runtime-ktx:2.10.0")
+
+    // Room
+    implementation ("androidx.room:room-runtime:2.7.0")
+    annotationProcessor ("androidx.room:room-compiler:2.7.0")
     implementation ("androidx.appcompat:appcompat:1.7.0")
     implementation ("androidx.constraintlayout:constraintlayout:2.2.1")
     implementation ("com.google.android.material:material:1.12.0")
