@@ -1,7 +1,14 @@
 <resources>
     <string name="app_name">Al-Quran</string>
+    <string-array name="languages">
+        <item>Indonesia</item>
+        <item>Inggris</item>
+        <item>Arab</item>
+    </string-array>
     <string name="tab_surah">Surah</string>
     <string name="tab_juz">Juz</string>
     <string name="tab_bookmark">Bookmark</string>
     <string name="ayat_number">Ayat %1$d</string>
+
+
 </resources>
