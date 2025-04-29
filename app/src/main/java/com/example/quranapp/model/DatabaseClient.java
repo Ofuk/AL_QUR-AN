@@ -11,8 +11,7 @@ public class DatabaseClient {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, "quran_database")
-                    .fallbackToDestructiveMigration()
-                    .build();
+                            .build();
         }
         return instance;
     }

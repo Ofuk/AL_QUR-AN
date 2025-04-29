@@ -1,4 +1,4 @@
-// File: java/com/example/quranapp/network/ApiService.java
+
 package com.example.quranapp.network;
 
 import com.example.quranapp.model.AyatResponse;

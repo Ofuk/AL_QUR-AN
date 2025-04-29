@@ -106,7 +106,7 @@ public class SettingsActivity extends AppCompatActivity {
         // Listener untuk Switch Dark Mode
         swDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("darkMode", isChecked);
+            editor.putBoolean("DwiMode", isChecked);
             editor.apply();
             if (isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);

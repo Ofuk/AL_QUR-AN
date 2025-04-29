@@ -25,5 +25,6 @@
         <activity android:name=".SurahDetailActivity" />
         <activity android:name=".JuzDetailActivity" />
         <activity android:name=".SettingsActivity" />
+        <activity android:name=".ProfileActivity" />
     </application>
 </manifest>

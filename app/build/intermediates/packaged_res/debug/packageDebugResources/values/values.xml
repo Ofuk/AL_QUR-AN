@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="languages">
+        <item>Indonesia</item>
+        <item>Inggris</item>
+        <item>Arab</item>
+    </string-array>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="app_name">Al-Quran</string>
+    <string name="ayat_number">Ayat %1$d</string>
+    <string name="gcm_defaultSenderId" translatable="false">764226048274</string>
+    <string name="google_api_key" translatable="false">AIzaSyCPAm3Pl2Fc9IbyhCm8VgZLP_g3kzuY-8c</string>
+    <string name="google_app_id" translatable="false">1:764226048274:android:1d2a8dae2396ad97a3e3cb</string>
+    <string name="google_client_id">764226048274-6d3gjukbvvrsnv7lrhr43onfqdibh5j4.apps.googleusercontent.com</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCPAm3Pl2Fc9IbyhCm8VgZLP_g3kzuY-8c</string>
+    <string name="google_storage_bucket" translatable="false">quranapp-64b1e.firebasestorage.app</string>
+    <string name="project_id" translatable="false">quranapp-64b1e</string>
+    <string name="tab_bookmark">Bookmark</string>
+    <string name="tab_juz">Juz</string>
+    <string name="tab_surah">Surah</string>
+    <style name="Base.Theme.Quranapp" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        
+    </style>
+    <style name="Theme.Quranapp" parent="Base.Theme.Quranapp"/>
+</resources>
